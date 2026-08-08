@@ -1,0 +1,149 @@
+name: retail_analytics
+description: Retail analytics model for an online retail business. Tracks transactions
+  (invoices, quantities, revenue, cancellations) across customers, products, and geographic
+  regions.
+tables:
+  - name: FACT_TRANSACTIONS
+    base_table:
+      database: HOL_ONLINE_RETAIL
+      schema: DATA
+      table: FACT_TRANSACTIONS
+    primary_key:
+      columns:
+        - TRANSACTION_ID
+    foreign_keys:
+      - fkey_columns:
+          - COUNTRY
+        pkey_table:
+          database: HOL_ONLINE_RETAIL
+          schema: DATA
+          table: DIM_COUNTRY
+        pkey_columns:
+          - COUNTRY
+      - fkey_columns:
+          - CUSTOMER_ID
+        pkey_table:
+          database: HOL_ONLINE_RETAIL
+          schema: DATA
+          table: DIM_CUSTOMER
+        pkey_columns:
+          - CUSTOMER_ID
+      - fkey_columns:
+          - STOCK_CODE
+        pkey_table:
+          database: HOL_ONLINE_RETAIL
+          schema: DATA
+          table: DIM_PRODUCT
+        pkey_columns:
+          - STOCK_CODE
+    dimensions:
+      - name: TRANSACTION_ID
+        expr: TRANSACTION_ID
+        data_type: VARCHAR
+      - name: INVOICE_NO
+        expr: INVOICE_NO
+        data_type: VARCHAR
+      - name: STOCK_CODE
+        expr: STOCK_CODE
+        data_type: VARCHAR
+      - name: CUSTOMER_ID
+        expr: CUSTOMER_ID
+        data_type: VARCHAR
+      - name: COUNTRY
+        expr: COUNTRY
+        data_type: VARCHAR
+      - name: QUANTITY
+        expr: QUANTITY
+        data_type: NUMBER
+      - name: IS_CANCELLATION
+        expr: IS_CANCELLATION
+        data_type: BOOLEAN
+    time_dimensions:
+      - name: INVOICE_DATE
+        expr: INVOICE_DATE
+        data_type: TIMESTAMP_NTZ
+    facts:
+      - name: UNIT_PRICE
+        expr: UNIT_PRICE
+        data_type: FLOAT
+      - name: REVENUE
+        expr: REVENUE
+        data_type: FLOAT
+  - name: DIM_CUSTOMER
+    base_table:
+      database: HOL_ONLINE_RETAIL
+      schema: DATA
+      table: DIM_CUSTOMER
+    primary_key:
+      columns:
+        - CUSTOMER_ID
+    dimensions:
+      - name: CUSTOMER_ID
+        expr: CUSTOMER_ID
+        data_type: VARCHAR
+      - name: COUNTRY
+        expr: COUNTRY
+        data_type: VARCHAR
+  - name: DIM_PRODUCT
+    base_table:
+      database: HOL_ONLINE_RETAIL
+      schema: DATA
+      table: DIM_PRODUCT
+    primary_key:
+      columns:
+        - STOCK_CODE
+    dimensions:
+      - name: STOCK_CODE
+        expr: STOCK_CODE
+        data_type: VARCHAR
+      - name: DESCRIPTION
+        expr: DESCRIPTION
+        data_type: VARCHAR
+  - name: DIM_COUNTRY
+    base_table:
+      database: HOL_ONLINE_RETAIL
+      schema: DATA
+      table: DIM_COUNTRY
+    primary_key:
+      columns:
+        - COUNTRY
+    dimensions:
+      - name: COUNTRY
+        expr: COUNTRY
+        data_type: VARCHAR
+      - name: REGION
+        expr: REGION
+        data_type: VARCHAR
+relationships:
+  - name: FACT_TRANSACTIONS_TO_DIM_COUNTRY
+    left_table: FACT_TRANSACTIONS
+    right_table: DIM_COUNTRY
+    join_type: inner
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: COUNTRY
+        right_column: COUNTRY
+  - name: FACT_TRANSACTIONS_TO_DIM_CUSTOMER
+    left_table: FACT_TRANSACTIONS
+    right_table: DIM_CUSTOMER
+    join_type: inner
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: CUSTOMER_ID
+        right_column: CUSTOMER_ID
+  - name: FACT_TRANSACTIONS_TO_DIM_PRODUCT
+    left_table: FACT_TRANSACTIONS
+    right_table: DIM_PRODUCT
+    join_type: inner
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: STOCK_CODE
+        right_column: STOCK_CODE
+  - name: DIM_CUSTOMER_TO_DIM_COUNTRY
+    left_table: DIM_CUSTOMER
+    right_table: DIM_COUNTRY
+    join_type: inner
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: COUNTRY
+        right_column: COUNTRY

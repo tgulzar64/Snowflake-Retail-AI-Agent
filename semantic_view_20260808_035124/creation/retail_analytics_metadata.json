@@ -1,0 +1,18 @@
+{
+  "semantic_view_name": "retail_analytics",
+  "target_database": "RETAIL_DB",
+  "target_schema": "SEMANTIC_MODELS",
+  "request_id": "fastgen_query_id",
+  "warnings": [],
+  "errors": [],
+  "suggestions_applied": [
+    "DIM_CUSTOMER_TO_DIM_COUNTRY"
+  ],
+  "suggestions_filtered": [],
+  "tables_included": [
+    "HOL_ONLINE_RETAIL.DATA.FACT_TRANSACTIONS",
+    "HOL_ONLINE_RETAIL.DATA.DIM_CUSTOMER",
+    "HOL_ONLINE_RETAIL.DATA.DIM_PRODUCT",
+    "HOL_ONLINE_RETAIL.DATA.DIM_COUNTRY"
+  ]
+}

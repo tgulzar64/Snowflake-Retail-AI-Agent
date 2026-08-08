@@ -1,0 +1,40 @@
+{
+  "json_proto": {
+    "name": "retail_analytics",
+    "database": "RETAIL_DB",
+    "schema": "SEMANTIC_MODELS",
+    "tables": [
+      {
+        "database": "HOL_ONLINE_RETAIL",
+        "schema": "DATA",
+        "table": "FACT_TRANSACTIONS",
+        "columnNames": ["TRANSACTION_ID", "INVOICE_NO", "STOCK_CODE", "CUSTOMER_ID", "COUNTRY", "INVOICE_DATE", "QUANTITY", "UNIT_PRICE", "REVENUE", "IS_CANCELLATION"]
+      },
+      {
+        "database": "HOL_ONLINE_RETAIL",
+        "schema": "DATA",
+        "table": "DIM_CUSTOMER",
+        "columnNames": ["CUSTOMER_ID", "COUNTRY"]
+      },
+      {
+        "database": "HOL_ONLINE_RETAIL",
+        "schema": "DATA",
+        "table": "DIM_PRODUCT",
+        "columnNames": ["STOCK_CODE", "DESCRIPTION"]
+      },
+      {
+        "database": "HOL_ONLINE_RETAIL",
+        "schema": "DATA",
+        "table": "DIM_COUNTRY",
+        "columnNames": ["COUNTRY", "REGION"]
+      }
+    ],
+    "sqlSource": {
+      "queries": []
+    },
+    "semanticDescription": "Retail analytics model for an online retail business. Tracks transactions (invoices, quantities, revenue, cancellations) across customers, products, and geographic regions.",
+    "metadata": {
+      "warehouse": "COMPUTE_WH"
+    }
+  }
+}
